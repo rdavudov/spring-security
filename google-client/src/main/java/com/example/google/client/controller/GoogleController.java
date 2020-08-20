@@ -39,12 +39,12 @@ public class GoogleController {
 	@GetMapping("/google-ok")
 	public String googleOk(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient authorizedClient,
 			@AuthenticationPrincipal OAuth2User oauth2User) {
-		String accessToken = ((OidcUser) oauth2User).getIdToken().getTokenValue() ;
+		String idToken = ((OidcUser) oauth2User).getIdToken().getTokenValue() ;
 		
 		return this.webClient
 				.get()
 				.uri("http://localhost:8081/secured-google")
-				.headers(header -> header.setBearerAuth(accessToken))
+				.headers(header -> header.setBearerAuth(idToken))
 				.retrieve()
 				.bodyToMono(String.class)
 				.block() ;
